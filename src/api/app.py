@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from predictor import Predictor
+from .predictor import Predictor
 
 # --- Initialize the Flask App ---
 app = Flask(__name__)
@@ -22,28 +22,19 @@ def analyze():
     """
     The main endpoint for analyzing an uploaded car image.
     """
-    # Check if an image was uploaded
     if 'file' not in request.files:
         return jsonify({"success": False, "error": "No file part in the request"}), 400
     
     file = request.files['file']
     
-    # Check if the file is empty
     if file.filename == '':
         return jsonify({"success": False, "error": "No file selected for uploading"}), 400
         
     if file:
         try:
-            # --- FIX: Pass the file stream directly to the predictor ---
-            # file.stream is the binary stream of the uploaded file
             prediction = predictor.predict(file.stream)
             
             return jsonify(prediction)
 
         except Exception as e:
             return jsonify({"success": False, "error": f"An error occurred: {str(e)}"}), 500
-
-if __name__ == "__main__":
-    # This block is for local testing only.
-    # For production, a proper WSGI server like Gunicorn will be used.
-    app.run(host="0.0.0.0", port=5000, debug=True)
