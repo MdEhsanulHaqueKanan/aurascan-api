@@ -1,0 +1,27 @@
+# Configuration for the AuraScanAI Project
+
+# --- Data Paths ---
+data:
+  raw_folder: "data" # We will join 'data' and 'raw' in code
+  processed_folder: "processed"
+  severity_dataset: "Car Damage Severity Dataset"
+  vehide_dataset: "VehiDE Dataset - Automatic vehicle damage detection"
+  parts_dataset: "Annotated Dataset of Car Parts with Damage"
+
+# --- Model Parameters ---
+model:
+  name: "VisionTransformer"
+  pretrained: true
+  num_classes: 5 # Example: scratch, dent, crack, shatter, clean
+
+# --- Training Parameters ---
+training:
+  device: "cuda" # "cuda" or "cpu"
+  epochs: 50
+  batch_size: 32
+  learning_rate: 0.001
+  optimizer: "Adam"
+
+# --- Output Paths ---
+output:
+  model_save_path: "models/"
